@@ -15,6 +15,7 @@ SITES = {
     # Add more sites here as needed
 }
 
+
 @app.get("/", response_class=HTMLResponse)
 async def home():
     # Generates a simple home page listing available sites
@@ -61,11 +62,28 @@ async def proxy(site_name: str, domain: str, routes_on_original_site: str, reque
     for i, line in enumerate(content_lines):
         if 'src="' in line or 'href="' in line:
             parts = line.split('"')
+            """
+            The even indices (0, 2, 4, ...) contain the text outside the quotes. 
+            The odd indices (1, 3, 5, ...) contain the URLs or values inside the quotes.
+            <img src="https://example.com/image.png">
+            '<img src=',                     # index 0 (text before first ")
+            'https://example.com/image.png', # index 1 (URL inside first ")
+            """
             for j in range(1, len(parts), 2):
+                """
+                This loop iterates over the indices of parts, starting from index 1 and stepping by 2.
+                This means it processes only the odd indices, which correspond to the URLs extracted from the src or
+                href attributes.                
+                """
+                # For each odd index, this line retrieves the URL stored in that part of the list.
                 url = parts[j]
                 if urlparse(url).scheme in ('http', 'https'):
                     continue
                 new_url = urljoin(proxy_base_url, url)
+                """
+                urljoin does not automatically modify paths that start with / to include any additional
+                segments (like a site name or domain)
+                """
                 if url.startswith('/'):
                     # Ensure the site_name and domain are included for relative paths
                     url_prefix = f"/{site_name}/{domain}"
@@ -80,4 +98,21 @@ async def proxy(site_name: str, domain: str, routes_on_original_site: str, reque
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
