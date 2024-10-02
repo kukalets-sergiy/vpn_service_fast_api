@@ -66,8 +66,8 @@ async def proxy(site_name: str, domain: str, routes_on_original_site: str, reque
             The even indices (0, 2, 4, ...) contain the text outside the quotes. 
             The odd indices (1, 3, 5, ...) contain the URLs or values inside the quotes.
             <img src="https://example.com/image.png">
-            '<img src=',                     # index 0 (text before first ")
-            'https://example.com/image.png', # index 1 (URL inside first ")
+                - '<img src=',                     # index 0 (text before first ")
+                - 'https://example.com/image.png', # index 1 (URL inside first ")
             """
             for j in range(1, len(parts), 2):
                 """

@@ -1,0 +1,50 @@
+vpn_service_fast_api/
+│
+├── docker-compose.yml
+├── Dockerfile
+├── requirements.txt
+│
+├── app/
+│   ├── main.py                   # Entry point of the application
+│   ├── config.py                 # Configuration settings (e.g., database URL, JWT secret)
+│   ├── models/                   # Database models
+│   │   ├── __init__.py
+│   │   ├── user.py               # User model
+│   │   ├── site.py               # Site model
+│   │   └── statistics.py          # Statistics model
+│   │
+│   ├── schemas/                  # Pydantic schemas for data validation
+│   │   ├── __init__.py
+│   │   ├── user.py               # User registration/login schemas
+│   │   ├── site.py               # Site creation schemas
+│   │   └── statistics.py         # Statistics retrieval schemas
+│   │
+│   ├── routers/                  # FastAPI routers
+│   │   ├── __init__.py
+│   │   ├── user.py               # User registration and profile management routes
+│   │   ├── site.py               # Site management routes
+│   │   └── statistics.py         # Statistics routes
+│   │
+│   ├── services/                 # Business logic and interactions with the database
+│   │   ├── __init__.py
+│   │   ├── auth.py               # JWT authentication service
+│   │   ├── user_service.py       # User-related services
+│   │   ├── site_service.py       # Site-related services
+│   │   └── statistics_service.py  # Statistics calculation and retrieval services
+│   │
+│   ├── database/                 # Database configuration and session management
+│   │   ├── __init__.py
+│   │   ├── database.py           # Database connection setup
+│   │   └── migrations/            # Migration files for the database
+│   │
+│   ├── utils/                    # Utility functions (e.g., URL validation)
+│   │   ├── __init__.py
+│   │   └── helpers.py            # Helper functions
+│   │
+│   └── static/                   # Static files (if needed)
+│
+└── tests/                        # Test files
+    ├── __init__.py
+    ├── test_user.py              # Tests for user-related functionality
+    ├── test_site.py              # Tests for site-related functionality
+    └── test_statistics.py         # Tests for statistics-related functionality
