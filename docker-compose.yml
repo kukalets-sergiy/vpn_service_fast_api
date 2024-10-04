@@ -1,0 +1,38 @@
+version: "3.8"
+
+services:
+
+  db:
+    container_name: postgresql_db
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
+    restart: "on-failure"
+    ports:
+      - "8001:5050"
+    depends_on:
+      - db
+  app:
+    container_name: app
+    build: .
+    command: bash -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+    volumes:
+      - .:/app
+    ports:
+      - 8000:8000
+    restart: always
+    depends_on:
+      - db
+
+volumes:
+  vpn_service_fast_api_volume:
